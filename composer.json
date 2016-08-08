@@ -1,0 +1,13 @@
+{
+    "name": "magentoese/magento-scripts",
+    "description": "Scripts to start and manage our M2 installations",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Keith Bentrup",
+            "email": "kbentrup@magento.com"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {}
+}
