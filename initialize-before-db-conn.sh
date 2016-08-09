@@ -31,7 +31,7 @@ fi
 # randomize start of php cron job and run once per hour
 sed -i "s/^[0-9,]\+/$(echo $((RANDOM%60)))/;" /etc/cron.d/php
 
-/scripts/envsubst.sh /etc/php/7.0/templates/*.ini /etc/ssmtp/templates/*.conf
+env-subst.sh
 
 ln -sf /etc/php/7.0/additional/apache2.ini /etc/php/7.0/apache2/conf.d/
 ln -sf /etc/php/7.0/additional/cli.ini /etc/php/7.0/cli/conf.d/
