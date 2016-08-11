@@ -54,4 +54,6 @@ if [ "${ENV_MODE}" = "developer" ]; then
 fi
 
 # until https://github.com/magento/magento2/issues/2461 is merged
-sed -i 's/this->max_execution_time = .*;/this->max_execution_time = 600;/' /magento/vendor/tubalmartin/cssmin/cssmin.php
+if [ -d /magento/vendor/tubalmartin ]; then
+  sed -i 's/this->max_execution_time = .*;/this->max_execution_time = 600;/' /magento/vendor/tubalmartin/cssmin/cssmin.php
+fi
