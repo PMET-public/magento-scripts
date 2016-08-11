@@ -18,21 +18,29 @@ if [ "${ENV_MODE}" != "developer" ]; then
 fi
 
 
+if [ -z "${ENCRYPTION_KEY}" ]; then
+  ENCRYPTION_KEY=$(cat /dev/urandom | head -1 | sha256sum | head -c 64)
+fi
+
 php /magento/bin/magento setup:install \
+  --session-save=db \
+  --cleanup-database \
+  --currency=USD \
   --base-url=https://${MAGENTO_HOSTNAME}/  \
+  --base-url-secure=https://${MAGENTO_HOSTNAME}/  \
+  --language=en_US \
+  --timezone=America/Los_Angeles \
   --db-host="${DB_SERVER}" \
   --db-name="${DB_NAME}" \
   --db-user="${DB_USER}" \
   --db-password="${DB_PASS}" \
+  --backend-frontname=admin \
+  --admin-user="${ADMIN_USER}" \
   --admin-firstname=first \
   --admin-lastname=last \
-  --backend-frontname=admin \
   --admin-email=admin@admin.com \
-  --admin-user=admin \
-  --admin-password=admin4tls \
-  --language=en_US \
-  --currency=USD \
-  --timezone=America/New_York
+  --admin-password="${ADMIN_PASSWORD}" \
+  --key="${ENCRYPTION_KEY}"
 
 $( readlink -f $(dirname $0) )/set-magento-base-urls.sh
 
