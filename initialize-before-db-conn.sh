@@ -15,7 +15,9 @@ if [ "${ENV_MODE}" = "developer" ]; then
 
   WEB_SERVER_GROUP=$(getent group "${VAGRANT_GID}" | cut -d: -f1);
 
-  ln -sf "${APP_DIR}" /magento
+  if [ ! -h /magento ]; then
+    ln -sf "${APP_DIR}" /magento
+  fi
 
 else
 
