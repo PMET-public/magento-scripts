@@ -19,7 +19,7 @@ fi
 
 
 if [ -z "${ENCRYPTION_KEY}" ]; then
-  ENCRYPTION_KEY=$(cat /dev/urandom | head -1 | sha256sum | head -c 64)
+  ENCRYPTION_KEY=$(cat /dev/urandom | head -1 | sha256sum | head -c 16)
 fi
 
 php /magento/bin/magento setup:install \
