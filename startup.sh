@@ -16,12 +16,14 @@ if [ ! -f /magento/.initialized ]; then
   sleep 5
   /usr/bin/sv stop apache2
 
+  "${SCRIPTS_DIR}/initialize-before-db-conn.sh"
+
   if [ ! -f /magento/.patched ]; then
+     cd /magento
      php "${SCRIPTS_DIR}/../../magento/magento-cloud-configuration/patch.php"
      : > /magento/.patched
+     cd -
   fi
-
-  "${SCRIPTS_DIR}/initialize-before-db-conn.sh"
 
   "${SCRIPTS_DIR}/wait-for-db-conn.sh"
 
