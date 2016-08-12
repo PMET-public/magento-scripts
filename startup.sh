@@ -10,11 +10,16 @@ set -a
 
 SCRIPTS_DIR=$( cd $(dirname $0) ; pwd -P )
 
-if [ ! -f "/magento/.initialized" ]; then
+if [ ! -f /magento/.initialized ]; then
 
   # allow time for apache to start so it can be cleanly stopped
   sleep 5
   /usr/bin/sv stop apache2
+
+  if [ ! -f /magento/.patched ]; then
+     php "${SCRIPTS_DIR}/../../magento/magento-cloud-configuration/patch.php"
+     : > /magento/.patched
+  fi
 
   "${SCRIPTS_DIR}/initialize-before-db-conn.sh"
 
@@ -24,6 +29,6 @@ if [ ! -f "/magento/.initialized" ]; then
 
   /usr/bin/sv start apache2
 
-  : > "/magento/.initialized"
+  : > /magento/.initialized
 
 fi
