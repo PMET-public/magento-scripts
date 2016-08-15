@@ -13,7 +13,7 @@ set -x
 rm -rf /magento/var/di || :
 php /magento/bin/magento module:enable --all
 
-if [ "${ENV_MODE}" != "developer" ]; then
+if [ "${ENABLE_DI_COMPILE}" = "true" ]; then
   php /magento/bin/magento setup:di:compile
 fi
 
