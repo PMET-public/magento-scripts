@@ -47,11 +47,6 @@ echo "${XEDBUG_PATH}" | tee /etc/php/7.0/cli/conf.d/xdebug-path.ini > /etc/php/7
 # show errors on pages
 cp /magento/pub/errors/local.xml.sample /magento/pub/errors/local.xml
 
-# include b2b if it exists
-if [ -d "${APP_DIR}/vendor/magento/magento2b2b/app" ]; then
-  cp -R "${APP_DIR}/vendor/magento/magento2b2b/app" "${APP_DIR}"
-fi
-
 sed -i '/SetEnv MAGE_MODE developer/ s/.*/# SetEnv MAGE_MODE developer/' /magento/.htaccess
 if [ "${ENV_MODE}" = "developer" ]; then
   sed -i '/SetEnv MAGE_MODE developer/ s/.*/SetEnv MAGE_MODE developer/' /magento/.htaccess
