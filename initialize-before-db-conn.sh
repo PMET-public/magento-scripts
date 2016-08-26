@@ -41,8 +41,6 @@ for i in opcache xdebug; do
   ln -sf /etc/php/7.0/additional/${i}.ini /etc/php/7.0/apache2/conf.d/
   ln -sf /etc/php/7.0/additional/${i}.ini /etc/php/7.0/cli/conf.d/
 done
-# show errors on pages
-cp /magento/pub/errors/local.xml.sample /magento/pub/errors/local.xml
 
 sed -i '/SetEnv MAGE_MODE developer/ s/.*/# SetEnv MAGE_MODE developer/' /magento/.htaccess
 if [ "${ENV_MODE}" = "developer" ]; then
