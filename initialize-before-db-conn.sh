@@ -56,8 +56,3 @@ sed -i '/SetEnv MAGE_MODE developer/ s/.*/# SetEnv MAGE_MODE developer/' /magent
 if [ "${ENV_MODE}" = "developer" ]; then
   sed -i '/SetEnv MAGE_MODE developer/ s/.*/SetEnv MAGE_MODE developer/' /magento/.htaccess
 fi
-
-# until https://github.com/magento/magento2/issues/2461 is merged
-if [ -d /magento/vendor/tubalmartin ]; then
-  sed -i 's/this->max_execution_time = .*;/this->max_execution_time = 600;/' /magento/vendor/tubalmartin/cssmin/cssmin.php
-fi
