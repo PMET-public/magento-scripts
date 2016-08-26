@@ -41,9 +41,6 @@ for i in opcache xdebug; do
   ln -sf /etc/php/7.0/additional/${i}.ini /etc/php/7.0/apache2/conf.d/
   ln -sf /etc/php/7.0/additional/${i}.ini /etc/php/7.0/cli/conf.d/
 done
-XDEBUG_PATH=$(find /usr/lib/php -name "xdebug.so" | sort | tail -1)
-echo "${XEDBUG_PATH}" | tee /etc/php/7.0/cli/conf.d/xdebug-path.ini > /etc/php/7.0/apache2/conf.d/xdebug-path.ini
-
 # show errors on pages
 cp /magento/pub/errors/local.xml.sample /magento/pub/errors/local.xml
 
