@@ -57,7 +57,7 @@ rm -rf /magento/pub/static/* /magento/var/view_preprocessed || :
 
 # in "developer" mode, static content will automatically be created as needed, so deploy content for other modes
 # http://devdocs.magento.com/guides/v2.0/config-guide/cli/config-cli-subcommands-static-view.html
-if [ "${ENV_MODE}" != "developer" ]; then
+if [ "${MAGE_MODE}" != "developer" ]; then
 
   SHARED_STATIC_CONTENT="${SHARED_TMP_PATH}/${STORE_MODE}/${RELEASE_TAG}"
   
@@ -80,10 +80,10 @@ if [ "${ENV_MODE}" != "developer" ]; then
 
 fi
 
-crontab -u "${WEB_SERVER_USER}" /etc/cron.d/magento
+crontab -u www-data /etc/cron.d/magento
 
 # reset the ownership of files since composer was run as root
-chown -RL "${WEB_SERVER_USER}" /magento
+chown -RL www-data /magento
 
 if [ "${ENABLE_XDEBUG}" = true ]; then
   phpenmod xdebug

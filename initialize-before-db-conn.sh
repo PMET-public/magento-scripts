@@ -5,15 +5,7 @@ set -e
 # turn on debugging
 set -x
 
-if [ "${ENV_MODE}" = "developer" ]; then
-
-  # create special user to map to host (vagrant) user to the docker useradd
-  VAGRANT_UID=$(stat -c "%u" "${APP_DIR}")
-  VAGRANT_GID=$(stat -c "%g" "${APP_DIR}")
-  groupadd -g "${VAGRANT_GID}" "${WEB_SERVER_USER}" || :
-  adduser --gid "${VAGRANT_GID}" --uid "${VAGRANT_UID}" --disabled-password --gecos "" "${WEB_SERVER_USER}" || :
-
-  WEB_SERVER_GROUP=$(getent group "${VAGRANT_GID}" | cut -d: -f1);
+if [ "${MAGE_MODE}" = "developer" ]; then
 
   if [ ! -h /magento ]; then
     ln -sf "${APP_DIR}" /magento
@@ -35,14 +27,7 @@ sed -i "s/^[0-9,]\+/$(echo $((RANDOM%60)))/;" /etc/cron.d/php
 
 env-subst.sh
 
-ln -sf /etc/php/7.0/additional/apache2.ini /etc/php/7.0/apache2/conf.d/
-ln -sf /etc/php/7.0/additional/cli.ini /etc/php/7.0/cli/conf.d/
-for i in opcache xdebug; do
-  ln -sf /etc/php/7.0/additional/${i}.ini /etc/php/7.0/apache2/conf.d/
-  ln -sf /etc/php/7.0/additional/${i}.ini /etc/php/7.0/cli/conf.d/
-done
-
 sed -i '/SetEnv MAGE_MODE developer/ s/.*/# SetEnv MAGE_MODE developer/' /magento/.htaccess
-if [ "${ENV_MODE}" = "developer" ]; then
+if [ "${MAGE_MODE}" = "developer" ]; then
   sed -i '/SetEnv MAGE_MODE developer/ s/.*/SetEnv MAGE_MODE developer/' /magento/.htaccess
 fi

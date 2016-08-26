@@ -31,8 +31,8 @@ fetch_url () {
 }
 
 cd /magento
-sudo -u "${WEB_SERVER_USER}" "${CMD}" cache:enable
-sudo -u "${WEB_SERVER_USER}" "${CMD}" cache:flush
+sudo -u www-data "${CMD}" cache:enable
+sudo -u www-data "${CMD}" cache:flush
 
 # output header row
 echo -ne "date,url," > ~/results.txt
@@ -50,7 +50,7 @@ for url in $URLS; do
   result=""
   for i in {1..10}; do
     if [ "$i" -lt 6 ]; then
-      sudo -u "${WEB_SERVER_USER}" "${CMD}" cache:flush
+      sudo -u www-data "${CMD}" cache:flush
     fi
     result="$result$(fetch_url $BASE_URL$url)"
   done
