@@ -24,8 +24,7 @@ fi
 
 /magento/bin/magento maintenance:enable
 
-# randomize start of php cron job and run once per hour
-sed -i "s/^[0-9,]\+/$(echo $((RANDOM%60)))/;" /etc/cron.d/php
+/magento/bin/magento maintenance:enable
 
 env-subst.sh
 
