@@ -48,9 +48,7 @@ if [ "${ENABLE_DI_COMPILE}" = "true" ]; then
 fi
 
 php /magento/bin/magento index:reindex
-
-# flush the config settings only
-php /magento/bin/magento cache:flush config
+php /magento/bin/magento cache:flush
 
 # clear any old static and preprocessed files first
 rm -rf /magento/pub/static/* /magento/var/view_preprocessed || :
@@ -60,14 +58,14 @@ rm -rf /magento/pub/static/* /magento/var/view_preprocessed || :
 if [ "${MAGE_MODE}" != "developer" ]; then
 
   SHARED_STATIC_CONTENT="${SHARED_TMP_PATH}/${STORE_MODE}/${RELEASE_TAG}"
-  
+
   # if this specific static content has already been generated it; reuse it
   if [ -d "${SHARED_STATIC_CONTENT}" ]; then
-  
+
     cp -rf "${SHARED_STATIC_CONTENT}/static" /magento/pub/
     cp -rf "${SHARED_STATIC_CONTENT}/view_preprocessed" /magento/var/
-  
-  else 
+
+  else
 
     # generate the content and copy the resulting files to a shared space
     php /magento/bin/magento setup:static-content:deploy $(echo ${LANG_TO_DEPLOY})
@@ -94,6 +92,6 @@ fi
 # must do in the background b/c apache not started yet
 if [ "${WARM_CACHE}" = true ]; then
   (sleep 30 && "${SCRIPTS_DIR}/warm-cache.sh" localhost) &
-fi 
+fi
 
 /magento/bin/magento maintenance:disable
