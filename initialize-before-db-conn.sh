@@ -27,10 +27,3 @@ fi
 /magento/bin/magento maintenance:enable
 
 env-subst.sh
-
-
-# can i remove this?
-sed -i '/SetEnv MAGE_MODE developer/ s/.*/# SetEnv MAGE_MODE developer/' /magento/.htaccess
-if [ "${MAGE_MODE}" = "developer" ]; then
-  sed -i '/SetEnv MAGE_MODE developer/ s/.*/SetEnv MAGE_MODE developer/' /magento/.htaccess
-fi
