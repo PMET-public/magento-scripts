@@ -95,3 +95,5 @@ fi
 if [ "${WARM_CACHE}" = true ]; then
   (sleep 30 && "${SCRIPTS_DIR}/warm-cache.sh" localhost) &
 fi 
+
+/magento/bin/magento maintenance:disable

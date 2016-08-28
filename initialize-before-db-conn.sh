@@ -22,11 +22,15 @@ else
 
 fi
 
+/magento/bin/magento maintenance:enable
+
 # randomize start of php cron job and run once per hour
 sed -i "s/^[0-9,]\+/$(echo $((RANDOM%60)))/;" /etc/cron.d/php
 
 env-subst.sh
 
+
+# can i remove this?
 sed -i '/SetEnv MAGE_MODE developer/ s/.*/# SetEnv MAGE_MODE developer/' /magento/.htaccess
 if [ "${MAGE_MODE}" = "developer" ]; then
   sed -i '/SetEnv MAGE_MODE developer/ s/.*/SetEnv MAGE_MODE developer/' /magento/.htaccess
