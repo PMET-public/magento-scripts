@@ -39,7 +39,6 @@ env-subst.sh
 # remove old di dir first if it exists
 rm -rf /magento/var/di || :
 php /magento/bin/magento module:enable --all
-php /magento/bin/magento setup:di:compile
 
 if [ -z "${ENCRYPTION_KEY}" ]; then
   ENCRYPTION_KEY=$(cat /dev/urandom | head -1 | sha256sum | head -c 16)
@@ -67,13 +66,13 @@ php /magento/bin/magento setup:install \
 
 $( readlink -f $(dirname $0) )/set-magento-base-urls.sh
 
-php /magento/bin/magento deploy:mode:set -s production
+php /magento/bin/magento deploy:mode:set "${MAGE_MODE}"
 
 # compilation requires information from app/etc/env.php so must occur after installation
 # or at least until app/etc/env.php default block has been written
-if [ "${ENABLE_DI_COMPILE}" = "true" ]; then
-  php /magento/bin/magento setup:di:compile
-fi
+#if [ "${ENABLE_DI_COMPILE}" = "true" ]; then
+#  php /magento/bin/magento setup:di:compile
+#fi
 
 php /magento/bin/magento index:reindex
 php /magento/bin/magento cache:flush
