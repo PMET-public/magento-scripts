@@ -32,7 +32,7 @@ fi
 
 env-subst.sh
 
-/usr/bin/mysql -C --host="${DB_SERVER}" --user="${DB_USER}" --password="${DB_PASS}" \
+/usr/bin/mysql -C --host=db --user="${DB_USER}" --password="${DB_PASS}" \
   -NBe "DROP DATABASE IF EXISTS \`${DB_NAME}\`;
         CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` DEFAULT CHARACTER SET utf8;"
 
@@ -52,7 +52,7 @@ php /magento/bin/magento setup:install \
   --base-url-secure=https://${MAGENTO_HOSTNAME}/  \
   --language=en_US \
   --timezone=America/Los_Angeles \
-  --db-host="${DB_SERVER}" \
+  --db-host=db \
   --db-name="${DB_NAME}" \
   --db-user="${DB_USER}" \
   --db-password="${DB_PASS}" \
