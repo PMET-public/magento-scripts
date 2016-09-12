@@ -74,6 +74,24 @@ php /magento/bin/magento deploy:mode:set "${MAGE_MODE}"
 #  php /magento/bin/magento setup:di:compile
 #fi
 
+# setup redis
+if ! grep -q redis /magento/app/etc/env.php; then
+
+  # each new app container will use 2 redis dbs
+  # count the existing # of mysql dbs (minus 3 for system dbs) and substract 1 to start indexing at 0
+  redis_db_index=$((($(mysql -h db -u $DB_USER --password=$DB_PASS -sNe 'show databases;' | wc -l) - 3 -1) * 2))
+  sed -i '/^);/d' /magento/app/etc/env.php
+  cat << EOF >> /magento/app/etc/env.php
+    'cache' => array ( 'frontend' => array (
+        'default' => array ('backend' => 'Cm_Cache_Backend_Redis', 'backend_options' => array ('server' => 'redis', 'port' => '6379', 'database' => '$redis_db_index')),
+        'page_cache' => array ('backend' => 'Cm_Cache_Backend_Redis', 'backend_options' => array ( 'server' => 'redis', 'port' => '6379', 'database' => '$redis_db_index'))
+    )),
+    'session' => array ('save' => 'redis', 'redis' => array ( 'host' => 'redis', 'port' => '6379', 'database' => '$(($redis_db_index + 1))'))
+  );
+EOF
+
+fi
+
 php /magento/bin/magento index:reindex
 php /magento/bin/magento cache:flush
 
