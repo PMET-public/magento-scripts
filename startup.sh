@@ -64,16 +64,6 @@ php /magento/bin/magento setup:install \
   --admin-password="${ADMIN_PASSWORD}" \
   --key="${ENCRYPTION_KEY}"
 
-$( readlink -f $(dirname $0) )/set-magento-base-urls.sh
-
-php /magento/bin/magento deploy:mode:set "${MAGE_MODE}"
-
-# compilation requires information from app/etc/env.php so must occur after installation
-# or at least until app/etc/env.php default block has been written
-#if [ "${ENABLE_DI_COMPILE}" = "true" ]; then
-#  php /magento/bin/magento setup:di:compile
-#fi
-
 # setup redis
 if ! grep -q redis /magento/app/etc/env.php; then
 
@@ -92,6 +82,16 @@ EOF
 
 fi
 
+$( readlink -f $(dirname $0) )/set-magento-base-urls.sh
+
+php /magento/bin/magento deploy:mode:set -s "${MAGE_MODE}"
+
+# compilation requires information from app/etc/env.php so must occur after installation
+# or at least until app/etc/env.php default block has been written
+if [ "${ENABLE_DI_COMPILE}" = "true" ]; then
+  php /magento/bin/magento setup:di:compile
+fi
+
 php /magento/bin/magento index:reindex
 php /magento/bin/magento cache:flush
 
@@ -100,9 +100,9 @@ rm -rf /magento/pub/static/* /magento/var/view_preprocessed || :
 
 # in "developer" mode, static content will automatically be created as needed, so deploy content for other modes
 # http://devdocs.magento.com/guides/v2.0/config-guide/cli/config-cli-subcommands-static-view.html
-if [ "${MAGE_MODE}" != "developer" ]; then
+if [ "${MAGE_MODE}" = "production" ]; then
 
-  SHARED_STATIC_CONTENT="${SHARED_TMP_PATH}/${STORE_MODE}/${RELEASE_TAG}"
+  SHARED_STATIC_CONTENT="${SHARED_TMP_PATH}/${RELEASE_TAG}"
 
   # if this specific static content has already been generated it; reuse it
   if [ -d "${SHARED_STATIC_CONTENT}" ]; then
@@ -148,7 +148,5 @@ if [ "${WARM_CACHE}" = true ]; then
 fi
 
 /magento/bin/magento maintenance:disable
-
-
 
 fi
