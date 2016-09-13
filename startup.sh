@@ -70,6 +70,9 @@ if [ ! -f /magento/.initialized ]; then
     # each new app container will use 2 redis dbs
     # count the existing # of mysql dbs (minus 3 for system dbs) and substract 1 to start indexing at 0
     redis_db_index=$((($(mysql -h db -u $DB_USER --password=$DB_PASS -sNe 'show databases;' | wc -l) - 3 -1) * 2))
+    # ensure redis dbs are flushed
+    redis-cli -h redis -n $redis_db_index flushdb
+    redis-cli -h redis -n $(($redis_db_index+1)) flushdb
     sed -i '/^);/d' /magento/app/etc/env.php
     cat << EOF >> /magento/app/etc/env.php
       'cache' => array ( 'frontend' => array (
