@@ -5,13 +5,14 @@
 // subsequent rows are data
 
 const XML_PREFIX = '<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-    <default>
-        <magentoese_autofill>
-            <general>
-              <enable_autofill>1</enable_autofill>
+  <default>
+    <magentoese_autofill>
+      <general>
+        <enable_autofill>1</enable_autofill>
 ';
-const XML_SUFFIX = '        </magentoese_autofill>
-    </default>
+const XML_SUFFIX = '      </general>
+    </magentoese_autofill>
+  </default>
 </config>
 ';
 
@@ -23,15 +24,20 @@ if (array_count_values($csv_files) === 0) {
 
 foreach($csv_files as $file) {
     $rows = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    echo XML_PREFIX;
+    $xml = XML_PREFIX;
     $headers = explode(",", array_shift($rows));
+    $num_headers = count($headers);
     foreach ($rows as $row_index => $row_value) {
-        echo "<persona_$row_index>\n";
+        $xml .= str_repeat ("  ",4)."<persona_".($row_index + 1).">\n";
         $fields = explode(",", $row_value);
-        foreach ($fields as $index => $value){
-            echo "<".$headers[$index]."_value>".trim($value)."</".$headers[$index]."_value>\n";
+        if (count($fields) !== $num_headers) {
+            exit("File: $file, row: ".($row_index + 1).": number of headers != numer of fields. Please ensure field values do not have commas.");
         }
-        echo "</persona_$row_index>\n";
+        foreach ($fields as $index => $value){
+            $xml .= str_repeat ("  ",5)."<".$headers[$index]."_value>".trim($value)."</".$headers[$index]."_value>\n";
+        }
+        $xml .= str_repeat ("  ",4)."</persona_".($row_index + 1).">\n";
     }
-    echo XML_SUFFIX;
+    $xml .= XML_SUFFIX;
+    file_put_contents ($file.".xml", $xml);
 }
