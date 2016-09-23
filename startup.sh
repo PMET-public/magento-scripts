@@ -36,6 +36,8 @@ if [ ! -f /magento/.initialized ]; then
     -NBe "DROP DATABASE IF EXISTS \`${DB_NAME}\`;
           CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` DEFAULT CHARACTER SET utf8;"
 
+  # remove /magento/.htaccess if it exists (/magento/pub is root)
+  rm /magento/.htaccess || :
   # remove old di dir first if it exists
   rm -rf /magento/var/di || :
   php /magento/bin/magento module:enable --all
