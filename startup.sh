@@ -10,6 +10,13 @@ set -a
 
 SCRIPTS_DIR=$( cd $(dirname $0) ; pwd -P )
 
+if [ ! -f /magento/.patched ]; then
+   cd /magento
+   php "${SCRIPTS_DIR}/../../magento/magento-cloud-configuration/patch.php"
+   : > /magento/.patched
+   cd -
+fi
+
 if [ ! -f /magento/.initialized ]; then
 
   if [ "${MAGE_MODE}" != "developer" ]; then
@@ -129,14 +136,6 @@ EOF
   fi
 
   crontab -u www-data /etc/cron.d/magento
-
-
-  #  if [ ! -f /magento/.patched ]; then
-  #     cd /magento
-  #     php "${SCRIPTS_DIR}/../../magento/magento-cloud-configuration/patch.php"
-  #     : > /magento/.patched
-  #     cd -
-  #  fi
 
   # reset the ownership of files since composer was run as root
   chown -RL www-data /magento
