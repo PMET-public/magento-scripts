@@ -10,6 +10,10 @@ set -a
 
 SCRIPTS_DIR=$( cd $(dirname $0) ; pwd -P )
 
+if [ ! -h /magento ]; then
+  ln -sf "${APP_DIR}" /magento
+fi
+
 if [ ! -f /magento/.patched ]; then
    cd /magento
    php "${SCRIPTS_DIR}/../../magento/magento-cloud-configuration/patch.php"
@@ -29,10 +33,6 @@ if [ ! -f /magento/.initialized ]; then
 
     export APP_DIR="${SHARED_TMP_PATH}/${MAGENTO_HOSTNAME}"
 
-  fi
-
-  if [ ! -h /magento ]; then
-    ln -sf "${APP_DIR}" /magento
   fi
 
   /magento/bin/magento maintenance:enable
