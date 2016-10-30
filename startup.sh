@@ -38,6 +38,7 @@ if [ ! -f /magento/.initialized ]; then
   /magento/bin/magento maintenance:enable
 
   env-subst.sh
+  /usr/bin/sv restart apache2
 
   /usr/bin/mysql -C --host=db --user="${DB_USER}" --password="${DB_PASS}" \
     -NBe "DROP DATABASE IF EXISTS \`${DB_NAME}\`;
