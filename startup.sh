@@ -48,7 +48,7 @@ if [ ! -f /magento/.initialized ]; then
   rm /magento/.htaccess || :
   # remove old di dir first if it exists
   rm -rf /magento/var/di || :
-  php /magento/bin/magento module:enable --all
+  php /magento/bin/magento module:enable --all --clear-static-content
 
   if [ -z "${ENCRYPTION_KEY}" ]; then
     ENCRYPTION_KEY=$(cat /dev/urandom | head -1 | sha256sum | head -c 16)
