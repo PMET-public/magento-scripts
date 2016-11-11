@@ -55,6 +55,7 @@ if [ ! -f /magento/.initialized ]; then
   fi
 
   php /magento/bin/magento setup:install \
+    -vvv \
     --session-save=db \
     --cleanup-database \
     --currency=USD \
