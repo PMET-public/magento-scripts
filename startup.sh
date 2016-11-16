@@ -137,8 +137,6 @@ EOF
 
   fi
 
-  crontab -u www-data /etc/cron.d/magento
-
   # reset the ownership of files since composer was run as root
   chown -RL www-data /magento
 
