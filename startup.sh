@@ -145,6 +145,7 @@ EOF
   if [ "${ENABLE_XDEBUG}" = true ]; then
     phpenmod xdebug
     phpdismod opcache
+    /usr/bin/sv restart apache2
   fi
 
   # ensure server up and then warm the cache
