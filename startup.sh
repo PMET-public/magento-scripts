@@ -14,12 +14,12 @@ if [ ! -h /magento ]; then
   ln -sf "${APP_DIR}" /magento
 fi
 
-#if [ ! -f /magento/.patched ]; then
-#   cd /magento
-#   php "${SCRIPTS_DIR}/../../magento/magento-cloud-configuration/patch.php"
-#   : > /magento/.patched
-#   cd -
-#fi
+if [ ! -f /magento/.patched ]; then
+   cd /magento
+   php "${SCRIPTS_DIR}/../../magento/magento-cloud-configuration/patch.php"
+   : > /magento/.patched
+   cd -
+fi
 
 if [ ! -f /magento/.initialized ]; then
 
