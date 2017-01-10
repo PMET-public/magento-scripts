@@ -16,7 +16,7 @@ fi
 
 if [ ! -f /magento/.patched ]; then
    cd /magento
-   php "${SCRIPTS_DIR}/../../magento/magento-cloud-configuration/patch.php"
+   php "${SCRIPTS_DIR}/../../magento/magento-cloud-configuration/patch.php" || :
    : > /magento/.patched
    cd -
 fi
