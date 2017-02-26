@@ -5,10 +5,8 @@ set -e
 # turn on debugging
 set -x
 
-function delVendorGitDirsIfPlatform {
-  if [ $is_platform ]; then
-    find vendor -type d -name .git -delete
-  fi
+function delVendorGitDirs {
+  find vendor -type d -name .git -delete
 }
 
 function rsyncM2CE {
@@ -38,7 +36,7 @@ function createMediaDirs {
 isPlatform=$(test -e /etc/platform/boot || echo "")
 rsyncOpts="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.md' --exclude '/LICENSE*'"
 [ $isPlatform ] && rsyncOpts="$rsyncOpts --remove-source-files"
-delVendorGitDirsIfPlatform
+[ $isPlatform ] && delVendorGitDirs
 rsyncM2CE
 
 case $1 in
