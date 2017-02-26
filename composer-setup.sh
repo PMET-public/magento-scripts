@@ -6,7 +6,7 @@ set -e
 set -x
 
 function delVendorGitDirs {
-  find vendor -type d -name .git -delete
+  find vendor -path '*/.git/*' -delete
 }
 
 function rsyncM2CE {
@@ -14,18 +14,21 @@ function rsyncM2CE {
 }
 
 function rsyncM2EE {
+  rsyncM2CE
   /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2ee/ ./"
 }
 
 function rsyncM2EESampleData {
   /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data/ ./"
+  /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data-ee/ ./"
 }
 
 function rsyncM2B2B {
+  rsyncM2EE
   /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2b2b/ ./"
 }
 
-function rsyncM2B2BMedia {
+function rsyncM2B2BSampleData {
   /bin/bash -c "rsync $rsyncOpts ./vendor/magentoese/module-b2b-media-sample-data/ ./pub/media/"
 }
 
@@ -33,21 +36,19 @@ function createMediaDirs {
   mkdir -p ./pub/media/catalog/product ./pub/media/downloadable/spec_sheets ./pub/media/wysiwyg/home
 }
 
-isPlatform=$(test -e /etc/platform/boot || echo "")
 rsyncOpts="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.md' --exclude '/LICENSE*'"
+isPlatform=$(test -e /etc/platform/boot || echo "1")
 [ $isPlatform ] && rsyncOpts="$rsyncOpts --remove-source-files"
 [ $isPlatform ] && delVendorGitDirs
-rsyncM2CE
 
 case $1 in
-  ce) ;;
-  ref)
-    rsyncM2EE; rsyncM2EE; rsyncM2EESampleData
+  ce)
+    rsyncM2CE
   ;;
-  demo)
-    rsyncM2EE; rsyncM2EE; rsyncM2EESampleData
+  ref|demo)
+    rsyncM2EE; rsyncM2EESampleData
   ;;
   b2b)
-    rsyncM2EE; rsyncM2EE; rsyncM2EESampleData; createMediaDirs
+    rsyncM2B2B; createMediaDirs; rsyncM2B2BSampleData
   ;;
 esac
