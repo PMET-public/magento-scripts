@@ -35,7 +35,7 @@ function createMediaDirs {
   mkdir -p ./pub/media/catalog/product ./pub/media/downloadable/spec_sheets ./pub/media/wysiwyg/home
 }
 
-isPlatform=[ -e /etc/platform/boot ] || ""
+isPlatform=$(test -e /etc/platform/boot || echo "")
 rsyncOpts="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.md' --exclude '/LICENSE*'"
 [ $isPlatform ] && rsyncOpts="$rsyncOpts --remove-source-files"
 delVendorGitDirsIfPlatform
