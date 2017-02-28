@@ -32,6 +32,10 @@ function rsyncM2B2BSampleData {
   /bin/bash -c "rsync $rsyncOpts ./vendor/magentoese/module-b2b-media-sample-data/ ./pub/media/"
 }
 
+function rsyncM2VeniaSampleData {
+  /bin/bash -c "rsync $rsyncOpts ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/"
+}
+
 function createMediaDirs {
   mkdir -p ./pub/media/catalog/product ./pub/media/downloadable/spec_sheets ./pub/media/wysiwyg/home
 }
@@ -45,8 +49,11 @@ case $1 in
   ce)
     rsyncM2CE
   ;;
-  ref|demo)
+  ref)
     rsyncM2EE; rsyncM2EESampleData
+    ;;
+  demo)
+    rsyncM2EE; rsyncM2EESampleData; rsyncM2VeniaSampleData
   ;;
   b2b)
     rsyncM2B2B; createMediaDirs; rsyncM2B2BSampleData
