@@ -11,6 +11,7 @@ function delVendorGitDirs {
 
 function rsyncM2CE {
   /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2ce/ ./"
+  mv pub/errors/local.xml.sample pub/errors/local.xml
 }
 
 function rsyncM2EE {
