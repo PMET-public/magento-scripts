@@ -11,7 +11,6 @@ function delVendorGitDirs {
 
 function rsyncM2CE {
   /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2ce/ ./"
-  mv ./pub/errors/local.xml.sample ./pub/errors/local.xml || :
 }
 
 function rsyncM2EE {
@@ -41,6 +40,9 @@ rsyncOpts="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.
 isPlatform=$(test -e /etc/platform/boot && echo "true" || echo "")
 [ $isPlatform ] && rsyncOpts="$rsyncOpts --remove-source-files"
 [ $isPlatform ] && delVendorGitDirs
+
+# enable error reporting
+mv ./pub/errors/local.xml.sample ./pub/errors/local.xml || :
 
 case $1 in
   ce)
