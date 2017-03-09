@@ -150,7 +150,7 @@ window.munin = {
     setInterval(5*60*1000, this.getPMETTable);
   },
 
-  function () {
+  addTimestampInput : function () {
     $('<input id="datetime" style="float:right; position: absolute" placeholder="YYYY-MM-DD HH:MM:SS">')
       .prependTo(document.body)
       .change(function () {
