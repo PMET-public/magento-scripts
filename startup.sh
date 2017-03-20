@@ -54,7 +54,18 @@ if [ ! -f /magento/.initialized ]; then
     ENCRYPTION_KEY=$(cat /dev/urandom | head -1 | sha256sum | head -c 16)
   fi
 
-  php /magento/bin/magento setup:install \
+  # if mcom enabled in composer, add it to the install cmd
+  AMQP_OPTIONS=''
+  if grep -Eq '^\s*"magento/mcom-connector' composer.json; then
+    AMQP_OPTIONS='--amqp-host="rabbit-ebm.cs.mcom.magento.com" \
+    --amqp-port="22143" \
+    --amqp-user="admin" \
+    --amqp-password="oms" \
+    --amqp-virtualhost="luma" \
+    --amqp-ssl=false'
+  fi
+
+  /bin/bash -c 'php /magento/bin/magento setup:install \
     -vvv \
     --session-save=db \
     --cleanup-database \
@@ -73,7 +84,8 @@ if [ ! -f /magento/.initialized ]; then
     --admin-lastname=last \
     --admin-email=admin@admin.com \
     --admin-password="${ADMIN_PASSWORD}" \
-    --key="${ENCRYPTION_KEY}"
+    --key="${ENCRYPTION_KEY}" \
+    ${AMQP_OPTIONS}'
 
   # setup redis
   if ! grep -q redis /magento/app/etc/env.php; then
