@@ -56,7 +56,7 @@ if [ ! -f /magento/.initialized ]; then
 
   # if mcom enabled in composer, add it to the install cmd
   AMQP_OPTIONS=''
-  if grep -Eq '^\s*"magento/mcom-connector' composer.json; then
+  if grep -Eq '^\s*"magento/mcom-connector' /magento/composer.json; then
     AMQP_OPTIONS='--amqp-host="rabbit-ebm.cs.mcom.magento.com" \
     --amqp-port="22143" \
     --amqp-user="admin" \
