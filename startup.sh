@@ -157,6 +157,7 @@ EOF
     phpdismod opcache
     /usr/bin/sv restart apache2
   fi
+  chmod 777 /tmp/xdebug.log || :
 
   # ensure server up and then warm the cache
   # must do in the background b/c apache not started yet
