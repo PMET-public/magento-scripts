@@ -10,6 +10,7 @@ ASSETS_URL_CONFIG=./var/.assets_url
 if [ ! -f ${ASSETS_URL_CONFIG} ] || [ "$(cat ${ASSETS_URL_CONFIG})" != "${assets_url}" ]; then
   curl -L "${assets_url}" | tar --strip-components=1 -zx -C .
   echo -n "${assets_url}" > "${ASSETS_URL_CONFIG}"
+  echo "${assets_url} downloaded." >> /tmp/deploy.log
 fi
 
 exit 0
