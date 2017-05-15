@@ -7,7 +7,7 @@ assets_url=$(echo $MAGENTO_CLOUD_VARIABLES | base64 --decode | python -c "import
 ASSETS_URL_CONFIG=./var/.assets_url
 
 
-if [ ! -f "${ASSETS_URL_CONFIG}" -o "$(cat ${ASSETS_URL_CONFIG})" -ne "${assets_url}" ]; then
+if [ ! -f ${ASSETS_URL_CONFIG} ] || [ "$(cat ${ASSETS_URL_CONFIG})" != "${assets_url}" ]; then
   curl -L "${assets_url}" | tar --strip-components=1 -zx -C .
   echo -n "${assets_url}" > "${ASSETS_URL_CONFIG}"
 fi
