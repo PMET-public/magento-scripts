@@ -36,12 +36,6 @@ function createMediaDirs {
   mkdir -p ./pub/media/catalog/product ./pub/media/downloadable/spec_sheets ./pub/media/wysiwyg/home
 }
 
-function fetchCatalogMedia {
-  store_type=$1
-  curl -vL "https://github.com/PMET-public/${store_type}-pub-media-catalog-product-cache/tarball/master" |
-    tar --strip-components=1 -zx -C ./pub/media/catalog/product/cache
-}
-
 rsyncOpts="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.md' --exclude '/LICENSE*'"
 isPlatform=$(test -e /etc/platform/boot && echo "true" || echo "")
 [ $isPlatform ] && rsyncOpts="$rsyncOpts --remove-source-files"
@@ -56,7 +50,6 @@ case $1 in
   ;;
   ref|demo)
     rsyncM2EE; rsyncM2EESampleData
-    fetchCatalogMedia $1
   ;;
   b2b)
     rsyncM2B2B; createMediaDirs; rsyncM2B2BSampleData
