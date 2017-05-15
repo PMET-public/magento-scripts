@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# stop on errors
-set -e
 # turn on debugging
 set -x
 
@@ -13,3 +11,5 @@ if [ ! -f "${ASSETS_URL_CONFIG}" -o "$(cat ${ASSETS_URL_CONFIG})" -ne "${assets_
   curl -L "${assets_url}" | tar --strip-components=1 -zx -C .
   echo -n "${assets_url}" > "${ASSETS_URL_CONFIG}"
 fi
+
+exit 0
