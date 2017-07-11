@@ -48,8 +48,12 @@ case $1 in
   ce)
     rsyncM2CE
   ;;
-  ref|demo)
+  ref)
     rsyncM2EE; rsyncM2EESampleData
+  ;;
+  demo)
+    rsyncM2EE; rsyncM2EESampleData
+    [ -d ./vendor/magentoese/module-venia-media-sample-data ] && /bin/bash -c "rsync $rsyncOpts ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/"
   ;;
   b2b)
     rsyncM2B2B; createMediaDirs; rsyncM2B2BSampleData
