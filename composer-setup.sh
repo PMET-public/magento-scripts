@@ -53,7 +53,7 @@ case $1 in
   ;;
   demo)
     rsyncM2EE; rsyncM2EESampleData
-    [ -d ./vendor/magentoese/module-venia-media-sample-data ] && /bin/bash -c "rsync $rsyncOpts ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/"
+    ./vendor/magentoese/module-venia-media-sample-data && /bin/bash -c "rsync $rsyncOpts ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/" || echo ""
   ;;
   b2b)
     rsyncM2B2B; createMediaDirs; rsyncM2B2BSampleData
