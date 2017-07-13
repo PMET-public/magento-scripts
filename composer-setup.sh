@@ -41,9 +41,6 @@ isPlatform=$(test -e /etc/platform/boot && echo "true" || echo "")
 [ $isPlatform ] && rsyncOpts="$rsyncOpts --remove-source-files"
 [ $isPlatform ] && delVendorGitDirs
 
-# enable error reporting
-mv ./pub/errors/local.xml.sample ./pub/errors/local.xml || :
-
 case $1 in
   ce)
     rsyncM2CE
@@ -59,3 +56,6 @@ case $1 in
     rsyncM2B2B; createMediaDirs; rsyncM2B2BSampleData
   ;;
 esac
+
+# enable error reporting
+mv ./pub/errors/local.xml.sample ./pub/errors/local.xml || :
