@@ -156,7 +156,7 @@ EOF
     phpenmod xdebug
     phpdismod opcache
     /usr/bin/sv restart apache2
-    sed 's/^.*Magento\\Framework\\DB\\LoggerInterface.*/<preference for="Magento\\Framework\\DB\\LoggerInterface" type="Magento\\Framework\\DB\\Logger\\File"\/><type name="Magento\\Framework\\DB\\Logger\\File"><arguments><argument name="logAllQueries" xsi:type="boolean">true<\/argument><argument name="debugFile" xsi:type="string">sql.log<\/argument><\/arguments><\/type>/' /magento/app/etc/di.xml
+    sed -i 's/^.*Magento\\Framework\\DB\\LoggerInterface.*/<preference for="Magento\\Framework\\DB\\LoggerInterface" type="Magento\\Framework\\DB\\Logger\\File"\/><type name="Magento\\Framework\\DB\\Logger\\File"><arguments><argument name="logAllQueries" xsi:type="boolean">true<\/argument><argument name="debugFile" xsi:type="string">sql.log<\/argument><\/arguments><\/type>/' /magento/app/etc/di.xml
   fi
   chmod 777 /tmp/xdebug.log || :
 
