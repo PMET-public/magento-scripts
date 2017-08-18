@@ -9,6 +9,7 @@ get_env_var () {
 
 if [ ! -f ./var/.MAGENTO_CLOUD_TREE_ID ] || \
   [ "$(cat ./var/.MAGENTO_CLOUD_TREE_ID)" != "${MAGENTO_CLOUD_TREE_ID}" ] || \
+  [ "$(cat ./var/.MAGENTO_CLOUD_BRANCH)" != "${MAGENTO_CLOUD_BRANCH}" ] || \
   [ "$(get_env_var REDEPLOY_ENV)" = "true" ] || \
   [ "$(get_env_var REDEPLOY_ENV)" = "1" ]; then
   exit 0
