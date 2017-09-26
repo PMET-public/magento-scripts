@@ -55,7 +55,8 @@ if [ ! -f /magento/.initialized ]; then
   fi
 
   # if mcom enabled in composer, add it to the install cmd
-  AMQP_OPTIONS=''
+  AMQP_OPTIONS='--amqp-host=mq.internal --amqp-user=guest --amqp-password=guest'
+
   if grep -Eq '^\s*"magento/mcom-connector' /magento/composer.json; then
     AMQP_OPTIONS='--amqp-host="rabbit-ebm.cs.mcom.magento.com" \
     --amqp-port="22143" \
@@ -65,7 +66,7 @@ if [ ! -f /magento/.initialized ]; then
     --amqp-ssl=false'
   fi
 
-  /bin/bash -c 'php /magento/bin/magento setup:install \
+  /bin/bash -x -c 'php /magento/bin/magento setup:install \
     -vvv \
     --session-save=db \
     --cleanup-database \
