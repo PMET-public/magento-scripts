@@ -29,6 +29,9 @@ if [ ! -f /magento/.initialized ]; then
   fi
 
   /magento/bin/magento maintenance:enable
+  /magento/bin/magento module:enable --all
+  /magento/bin/magento module:disable MagentoEse_PostInstall
+
 
   env-subst.sh
   /usr/bin/sv restart apache2
@@ -58,7 +61,7 @@ if [ ! -f /magento/.initialized ]; then
     --amqp-ssl=false'
   fi
 
-  /bin/bash -x -c 'php /magento/bin/magento setup:install \
+  /bin/bash -x -c 'time php /magento/bin/magento setup:install \
     -vvv \
     --session-save=db \
     --cleanup-database \
