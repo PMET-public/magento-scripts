@@ -83,6 +83,9 @@ if [ ! -f /magento/.initialized ]; then
     --key="${ENCRYPTION_KEY}" \
     ${AMQP_OPTIONS}'
 
+
+  /magento/bin/magento module:disable MagentoEse_PostInstall
+
   # setup redis
   if ! grep -q redis /magento/app/etc/env.php; then
 
@@ -114,8 +117,8 @@ EOF
     php /magento/bin/magento setup:di:compile
   fi
 
-  php /magento/bin/magento index:reindex
-  php /magento/bin/magento cache:flush
+  /magento/bin/magento index:reindex
+  /magento/bin/magento cache:flush
 
   # clear any old static and preprocessed files first
   rm -rf /magento/pub/static/* /magento/var/view_preprocessed || :
