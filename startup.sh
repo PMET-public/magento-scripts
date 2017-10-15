@@ -84,7 +84,7 @@ if [ ! -f /magento/.initialized ]; then
     ${AMQP_OPTIONS}'
 
 
-  /magento/bin/magento module:disable MagentoEse_PostInstall
+  /magento/bin/magento module:enable MagentoEse_PostInstall
 
   # setup redis
   if ! grep -q redis /magento/app/etc/env.php; then
