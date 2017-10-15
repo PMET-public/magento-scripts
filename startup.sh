@@ -85,6 +85,7 @@ if [ ! -f /magento/.initialized ]; then
 
 
   /magento/bin/magento module:enable MagentoEse_PostInstall
+  /magento/bin/magento setup:upgrade
 
   # setup redis
   if ! grep -q redis /magento/app/etc/env.php; then
