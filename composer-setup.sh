@@ -58,5 +58,8 @@ case $1 in
   ;;
 esac
 
+# remove .htaccess file b/c not web root
+rm .htaccess
+
 # enable error reporting
 mv ./pub/errors/local.xml.sample ./pub/errors/local.xml || :
