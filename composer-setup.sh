@@ -43,17 +43,18 @@ isPlatformEnv=$(test -e /etc/platform/boot && echo "true" || echo "")
 
 case $1 in
   ce)
-    rsyncM2CE
+    # rsyncM2CE
   ;;
   ref)
-    rsyncM2EE; rsyncM2EESampleData || echo ""
+    # rsyncM2EE; rsyncM2EESampleData || echo ""
   ;;
   demo)
-    rsyncM2EE; rsyncM2EESampleData || echo ""
+    # rsyncM2EE; rsyncM2EESampleData || echo ""
     /bin/bash -c "rsync $rsyncOpts ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/" || echo ""
   ;;
   b2b)
-    rsyncM2B2B; createMediaDirs; rsyncM2B2BSampleData
+    # rsyncM2B2B; 
+    createMediaDirs; rsyncM2B2BSampleData
   ;;
 esac
 
