@@ -37,9 +37,9 @@ function createMediaDirs {
 }
 
 rsyncOpts="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.md' --exclude '/LICENSE*'"
-isPlatform=$(test -e /etc/platform/boot && echo "true" || echo "")
-[ $isPlatform ] && rsyncOpts="$rsyncOpts --remove-source-files"
-[ $isPlatform ] && delVendorGitDirs
+isPlatformEnv=$(test -e /etc/platform/boot && echo "true" || echo "")
+[ $isPlatformEnv ] && rsyncOpts="$rsyncOpts --remove-source-files"
+[ $isPlatformEnv ] && delVendorGitDirs
 
 case $1 in
   ce)
