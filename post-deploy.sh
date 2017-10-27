@@ -6,6 +6,7 @@ set -e
 set -x
 
 INITIALIZED_FLAG_FILE=/app/init/app/etc/.initialized
+
 if [ ! -f "${INITIALIZED_FLAG_FILE}" ]; then
 
   /app/bin/magento module:enable MagentoEse_PostInstall
