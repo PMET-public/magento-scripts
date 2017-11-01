@@ -36,9 +36,7 @@ if [ ! -f /magento/.initialized ]; then
   env-subst.sh
   /usr/bin/sv restart apache2
 
-  /usr/bin/mysql -C --host=db --user="${DB_USER}" --password="${DB_PASS}" \
-    -NBe "DROP DATABASE IF EXISTS \`${DB_NAME}\`;
-          CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` DEFAULT CHARACTER SET utf8;"
+  mysql -C --host=database.internal -NBe "DROP DATABASE IF EXISTS main; CREATE DATABASE IF NOT EXISTS main DEFAULT CHARACTER SET utf8;"
 
   # remove /magento/.htaccess if it exists (/magento/pub is root)
   rm /magento/.htaccess || :
