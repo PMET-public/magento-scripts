@@ -11,7 +11,7 @@ if [ ! -f "${INITIALIZED_FLAG_FILE}" ]; then
 
   # we for an  initial indexing in demo, but ref does not.
   # so index initially if composer appears to be ref
-  if [ grep -q '"magento/module-catalog-sample-data"' /app/composer.json  -a ! grep -q '"magentoese/module-demo-admin-configurations"' /app/composer.json ]; then
+  if grep -q '"magento/module-catalog-sample-data"' /app/composer.json && ! grep -q '"magentoese/module-demo-admin-configurations"' /app/composer.json; then
     /app/bin/magento indexer:reindex
   fi
 
