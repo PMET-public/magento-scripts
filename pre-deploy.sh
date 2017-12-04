@@ -5,7 +5,8 @@ set -e
 # turn on debugging
 set -x
 
-INITIALIZED_FLAG_FILE=/app/init/app/etc/.initialized
+SCRIPTS_DIR=$( cd $(dirname $0) ; pwd -P )
+. "${SCRIPTS_DIR}/lib.sh"
 
 if [ ! -f "${INITIALIZED_FLAG_FILE}" ]; then
 
