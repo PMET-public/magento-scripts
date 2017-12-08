@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# stop on errors
-set -e
 # turn on debugging
 set -x
 
@@ -14,7 +12,7 @@ case $1 in
   ref)
   ;;
   demo)
-    /bin/bash -c "rsync $RSYNC_OPTS ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/" || echo ""
+    /bin/bash -c "rsync $RSYNC_OPTS ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/"
   ;;
   b2b)
     mkdir -p ./pub/media/catalog/product ./pub/media/downloadable/spec_sheets ./pub/media/wysiwyg/home
@@ -29,4 +27,4 @@ if [ "${IS_PLATFORM_ENV}" == "true" ]; then
 fi
 
 # enable error reporting
-mv ./pub/errors/local.xml.sample ./pub/errors/local.xml || :
+mv ./pub/errors/local.xml.sample ./pub/errors/local.xml
