@@ -20,3 +20,5 @@ if [ ! -f "${INITIALIZED_FLAG_FILE}" ]; then
   touch "${INITIALIZED_FLAG_FILE}"
 fi
 
+# remove dir not needed after deploy
+rm -rf init/pub/media/*

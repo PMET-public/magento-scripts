@@ -23,7 +23,7 @@ esac
 # remove files not needed for deployment on platform
 if [ "${IS_PLATFORM_ENV}" == "true" ]; then
   find vendor -type d \( -path "*/dev" -o -path "*/Test" -o -path "*/.git" \) -exec rm -rf {} \; || :
-  rm -rf init/pub/media/* vendor/magento/sample-data-media || :
+  rm -rf vendor/magento/sample-data-media || :
 fi
 
 # enable error reporting
