@@ -55,23 +55,13 @@ log_deploy_message() {
 }
 
 is_new_branch() {
-  if [ ! -f ${BRANCH_FILE} ] || [ "$(cat ${BRANCH_FILE})" != "${MAGENTO_CLOUD_BRANCH}" ]; then
-    log_deploy_message "Branch changed: ${MAGENTO_CLOUD_BRANCH}"
-    return 0
-  else
-    log_deploy_message "Branch unchanged"
-    return -1
-  fi
+  test ! -f ${BRANCH_FILE} -o "$(cat ${BRANCH_FILE})" != "${MAGENTO_CLOUD_BRANCH}"
+  return $?
 }
 
 is_new_slug() {
-  if [ ! -f ${SLUG_FILE} ] || [ "$(cat ${SLUG_FILE})" != "${MAGENTO_CLOUD_TREE_ID}" ]; then
-    log_deploy_message "Slug changed: ${MAGENTO_CLOUD_TREE_ID}"
-    return 0
-  else
-    log_deploy_message "Slug unchanged"
-    return -1
-  fi
+  test ! -f ${SLUG_FILE} -o "$(cat ${SLUG_FILE})" != "${MAGENTO_CLOUD_TREE_ID}"
+  return $?
 }
 
 INITIALIZED_FLAG_FILE=/app/init/app/etc/.initialized
