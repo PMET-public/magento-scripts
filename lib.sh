@@ -24,8 +24,9 @@ is_first_run() {
 
 first_run_pre_deploy() {
   if ! is_ref; then
-    /app/bin/magento module:enable --all
-    /app/bin/magento module:disable MagentoEse_PostInstall
+: #  currently fails on platform b/c var/generated is not writeable
+#    /app/bin/magento module:enable --all
+#    /app/bin/magento module:disable MagentoEse_PostInstall
   fi
 }
 
@@ -33,8 +34,9 @@ first_run_post_deploy() {
   if is_first_run; then
     /app/bin/magento indexer:reindex
     if ! is_ref; then
-      /app/bin/magento module:enable MagentoEse_PostInstall
-      /app/bin/magento setup:upgrade --keep-generated -n
+: #  currently fails on platform b/c var/generated is not writeable
+#      /app/bin/magento module:enable MagentoEse_PostInstall
+#      /app/bin/magento setup:upgrade --keep-generated -n
     fi
     touch "${INITIALIZED_FLAG_FILE}"
   fi
