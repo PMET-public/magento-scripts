@@ -18,8 +18,13 @@ elif is_new_branch; then
   php ./vendor/bin/m2-ece-branch
 fi
 
-record_slug
-record_branch
+if is_new_slug; then
+  record_slug
+fi
+
+if is_new_branch; then
+  record_branch
+fi
 
 if is_first_run; then
   first_run_post_deploy
