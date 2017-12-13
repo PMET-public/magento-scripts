@@ -23,11 +23,9 @@ is_first_run() {
 }
 
 first_run_pre_deploy() {
-  if is_first_run; then
-    if ! is_ref; then
-      /app/bin/magento module:enable --all
-      /app/bin/magento module:disable MagentoEse_PostInstall
-    fi
+  if ! is_ref; then
+    /app/bin/magento module:enable --all
+    /app/bin/magento module:disable MagentoEse_PostInstall
   fi
 }
 
@@ -59,20 +57,20 @@ log_deploy_message() {
 is_new_branch() {
   if [ ! -f ${BRANCH_FILE} ] || [ "$(cat ${BRANCH_FILE})" != "${MAGENTO_CLOUD_BRANCH}" ]; then
     log_deploy_message "Branch changed: ${MAGENTO_CLOUD_BRANCH}"
-    return -1
+    return 0
   else
     log_deploy_message "Branch unchanged"
-    return 0
+    return -1
   fi
 }
 
 is_new_slug() {
   if [ ! -f ${SLUG_FILE} ] || [ "$(cat ${SLUG_FILE})" != "${MAGENTO_CLOUD_TREE_ID}" ]; then
     log_deploy_message "Slug changed: ${MAGENTO_CLOUD_TREE_ID}"
-    return -1
+    return 0
   else
     log_deploy_message "Slug unchanged"
-    return 0
+    return -1
   fi
 }
 
