@@ -12,16 +12,16 @@ case $1 in
   ref)
   ;;
   demo)
-    /bin/bash -c "rsync $RSYNC_OPTS ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/"
+    /bin/bash -c "rsync $COMPOSER_RSYNC_OPTS ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/"
   ;;
   b2b)
     mkdir -p ./pub/media/catalog/product ./pub/media/downloadable/spec_sheets ./pub/media/wysiwyg/home
-    /bin/bash -c "rsync $RSYNC_OPTS ./vendor/magentoese/module-b2b-media-sample-data/ ./pub/media/"
+    /bin/bash -c "rsync $COMPOSER_RSYNC_OPTS ./vendor/magentoese/module-b2b-media-sample-data/ ./pub/media/"
   ;;
 esac
 
 # remove files not needed for deployment on platform
-if [ "${IS_PLATFORM_ENV}" == "true" ]; then
+if is_platform_env; then
   find vendor -type d \( -path "*/dev" -o -path "*/Test" -o -path "*/.git" \) -exec rm -rf {} \; || :
   rm -rf vendor/magento/sample-data-media || :
 fi
