@@ -10,8 +10,12 @@ case $1 in
   ce)
   ;;
   ref)
+    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data/ ./"
+    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data-ee/ ./"
   ;;
   demo)
+    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data/ ./"
+    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data-ee/ ./"
     /bin/bash -c "rsync $COMPOSER_RSYNC_OPTS ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/"
   ;;
   b2b)
@@ -23,7 +27,7 @@ esac
 # remove files not needed for deployment on platform
 if is_platform_env; then
   find vendor -type d \( -path "*/dev" -o -path "*/Test" -o -path "*/.git" \) -exec rm -rf {} \; || :
-  rm -rf vendor/magento/sample-data-media || :
+  rm -rf vendor/magento/sample-data-media vendor/magento/sample-data-media-ee || :
 fi
 
 # enable error reporting
