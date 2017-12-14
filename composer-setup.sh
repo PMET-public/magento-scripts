@@ -6,16 +6,20 @@ set -x
 SCRIPTS_DIR=$( cd $(dirname $0) ; pwd -P )
 . "${SCRIPTS_DIR}/lib.sh"
 
+
+rsyncSampleMedia () {
+    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/sample-data-media/ ./pub/media"
+    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data-ee/ ./"
+}
+
 case $1 in
   ce)
   ;;
   ref)
-    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data/ ./"
-    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data-ee/ ./"
+    rsyncSampleMedia
   ;;
   demo)
-    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data/ ./"
-    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data-ee/ ./"
+    rsyncSampleMedia
     /bin/bash -c "rsync $COMPOSER_RSYNC_OPTS ./vendor/magentoese/module-venia-media-sample-data/ ./pub/media/"
   ;;
   b2b)
