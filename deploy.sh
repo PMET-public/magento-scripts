@@ -5,8 +5,7 @@ set -e
 # turn on debugging
 set -x
 
-SCRIPTS_DIR=$( cd $(dirname $0) ; pwd -P )
-. "${SCRIPTS_DIR}/lib.sh"
+. "$( cd $(dirname $0) ; pwd -P )/lib.sh"
 
 if is_first_run; then
   first_run_pre_deploy

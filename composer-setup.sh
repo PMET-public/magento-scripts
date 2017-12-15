@@ -3,14 +3,8 @@
 # turn on debugging
 set -x
 
-SCRIPTS_DIR=$( cd $(dirname $0) ; pwd -P )
-. "${SCRIPTS_DIR}/lib.sh"
 
-
-rsyncSampleMedia () {
-    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/sample-data-media/ ./pub/media"
-    /bin/bash -c "rsync $rsyncOpts ./vendor/magento/magento2-sample-data-ee/ ./"
-}
+. "$( cd $(dirname $0) ; pwd -P )/lib.sh"
 
 case $1 in
   ce)
@@ -30,7 +24,7 @@ esac
 
 # remove files not needed for deployment on platform
 if is_platform_env; then
-  find vendor -type d \( -path "*/dev" -o -path "*/Test" -o -path "*/.git" \) -exec rm -rf {} \; || :
+  find vendor -type d \( -path "*/dev" -o -path "*/Test" -o -path "*/.git" \) -exec rm -rf {} \; 2>/dev/null || :
   rm -rf vendor/magento/sample-data-media vendor/magento/sample-data-media-ee || :
 fi
 

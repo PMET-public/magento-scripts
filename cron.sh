@@ -2,11 +2,11 @@
 
 set -x
 
-# change to the app directory
-SCRIPTS_DIR=$( cd $(dirname $0) ; pwd -P )
-cd "${SCRIPTS_DIR}/../../../"
+. "$( cd $(dirname $0) ; pwd -P )/lib.sh"
+cd "${APP_ROOT}"
 
 
+log_cron_message "Cron started"
 echo $(date +"%Y-%m-%d %H:%M:%S") cron started >> /tmp/cron.log
 
 # normal magento cron
@@ -19,4 +19,5 @@ for queue in sharedCatalogUpdatePrice sharedCatalogUpdateCategoryPermissions; do
   ps ax | grep -q "[ ]${queue}" || nohup php bin/magento queue:consumers:start "${queue}" >/dev/null 2>&1 &
 done
 
+log_cron_message "Cron ended"
 echo $(date +"%Y-%m-%d %H:%M:%S") cron completed >> /tmp/cron.log

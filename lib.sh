@@ -7,21 +7,6 @@ set -x
 # export vars
 set -a
 
-is_ref() {
-  grep -q '"magento/module-catalog-sample-data"' "${SCRIPTS_DIR}/../../../composer.json" && ! grep -q '"magentoese/module-demo-admin-configurations"' "${SCRIPTS_DIR}/../../../composer.json"
-  return $?
-}
-
-is_platform_env() {
-  test -f /etc/platform/boot
-  return $?
-}
-
-is_first_run() {
-  test ! -f "${INITIALIZED_FLAG_FILE}"
-  return $?
-}
-
 first_run_pre_deploy() {
   if ! is_ref; then
 : #  currently fails on platform b/c var/generated is not writeable
@@ -42,18 +27,9 @@ first_run_post_deploy() {
   fi
 }
 
-record_slug() {
-  echo -n "${MAGENTO_CLOUD_TREE_ID}" > "${SLUG_FILE}"
-  log_deploy_message "New slug recorded: ${MAGENTO_CLOUD_TREE_ID}"
-}
-
-record_branch() {
-  echo -n "${MAGENTO_CLOUD_BRANCH}" > "${BRANCH_FILE}"
-  log_deploy_message "New branch recorded: ${MAGENTO_CLOUD_BRANCH}"
-}
-
-log_deploy_message() {
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $@" >> "${DEPLOY_LOG_FILE}"
+is_first_run() {
+  test ! -f "${INITIALIZED_FLAG_FILE}"
+  return $?
 }
 
 is_new_branch() {
@@ -66,11 +42,48 @@ is_new_slug() {
   return $?
 }
 
-INITIALIZED_FLAG_FILE=/app/init/app/etc/.initialized
-DEPLOY_LOG_FILE=/tmp/deploy.log
-SLUG_FILE=/app/var/.MAGENTO_CLOUD_TREE_ID
-BRANCH_FILE=/app/var/.MAGENTO_CLOUD_BRANCH
+is_platform_env() {
+  test -f /etc/platform/boot
+  return $?
+}
+
+is_ref() {
+  grep -q '"magento/module-catalog-sample-data"' "${APP_ROOT}/composer.json" && ! grep -q '"magentoese/module-demo-admin-configurations"' "${APP_ROOT}/composer.json"
+  return $?
+}
+
+log_cron_message() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $@" >> "${CRON_LOG_FILE}"
+}
+
+log_deploy_message() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $@" >> "${DEPLOY_LOG_FILE}"
+}
+
+record_slug() {
+  echo -n "${MAGENTO_CLOUD_TREE_ID}" > "${SLUG_FILE}"
+  log_deploy_message "New slug recorded: ${MAGENTO_CLOUD_TREE_ID}"
+}
+
+record_branch() {
+  echo -n "${MAGENTO_CLOUD_BRANCH}" > "${BRANCH_FILE}"
+  log_deploy_message "New branch recorded: ${MAGENTO_CLOUD_BRANCH}"
+}
+
+rsyncSampleMedia () {
+    /bin/bash -c "rsync $rsyncOpts '${APP_ROOT}/vendor/magento/sample-data-media/' '${APP_ROOT}/pub/media'"
+    /bin/bash -c "rsync $rsyncOpts '${APP_ROOT}/vendor/magento/magento2-sample-data-ee/' '${APP_ROOT}/'"
+}
+
+APP_ROOT=$( cd $(dirname $0)/../../.. ; pwd -P )
+
+INITIALIZED_FLAG_FILE="${APP_ROOT}/init/app/etc/.initialized"
+DEPLOY_LOG_FILE="${APP_ROOT}/app/etc/log/deploy.log"
+CRON_LOG_FILE="${APP_ROOT}/app/etc/log/cron.log"
+SLUG_FILE="${APP_ROOT}/var/.MAGENTO_CLOUD_TREE_ID"
+BRANCH_FILE="${APP_ROOT}/var/.MAGENTO_CLOUD_BRANCH"
+
 COMPOSER_RSYNC_OPTS="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.md' --exclude '/LICENSE*'"
 if is_platform_env; then
-  COMPOSER_RSYNC_OPTS="$RSYNC_OPTS --remove-source-files"
+  COMPOSER_RSYNC_OPTS="${COMPOSER_RSYNC_OPTS} --remove-source-files"
 fi
