@@ -71,8 +71,7 @@ record_branch() {
 }
 
 rsyncSampleMedia () {
-    /bin/bash -c "rsync $rsyncOpts '${APP_ROOT}/vendor/magento/sample-data-media/' '${APP_ROOT}/pub/media'"
-    /bin/bash -c "rsync $rsyncOpts '${APP_ROOT}/vendor/magento/magento2-sample-data-ee/' '${APP_ROOT}/'"
+    /bin/bash -c "rsync $rsyncOpts vendor/magento/sample-data-media/ pub/media || :"
 }
 
 APP_ROOT=$( cd $(dirname $0)/../../.. ; pwd -P )
