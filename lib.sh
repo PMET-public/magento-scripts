@@ -76,11 +76,11 @@ rsyncSampleMedia () {
 
 APP_ROOT=$( cd $(dirname $0)/../../.. ; pwd -P )
 
-INITIALIZED_FLAG_FILE="${APP_ROOT}/init/app/etc/.initialized"
+INITIALIZED_FLAG_FILE="${APP_ROOT}/app/etc/.initialized"
 DEPLOY_LOG_FILE="${APP_ROOT}/app/etc/log/deploy.log"
 CRON_LOG_FILE="${APP_ROOT}/app/etc/log/cron.log"
-SLUG_FILE="${APP_ROOT}/var/.MAGENTO_CLOUD_TREE_ID"
-BRANCH_FILE="${APP_ROOT}/var/.MAGENTO_CLOUD_BRANCH"
+SLUG_FILE="${APP_ROOT}/app/etc/.MAGENTO_CLOUD_TREE_ID"
+BRANCH_FILE="${APP_ROOT}/app/etc/.MAGENTO_CLOUD_BRANCH"
 
 COMPOSER_RSYNC_OPTS="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.md' --exclude '/LICENSE*'"
 if is_platform_env; then
