@@ -16,6 +16,7 @@ else
   dir="$cur_dir/../module-admin-configurations"
 fi
 
+
 ##############################
 #
 # consolidated cron_groups.xml
@@ -44,12 +45,12 @@ perl -i -pe '
 
 sed -i '1 s/^/<config>\n/; $ s/$/\n<\/config>/' $path
 
+
 ##########################
 #
 # consolidated crontab.xml
 #
 ##########################
-
 
 path="${dir}/crontab.xml"
 rm "$path" || :
@@ -96,24 +97,3 @@ perl -i -pe 's/>[\d,]+ \* \* \* \*/( ">" . int(rand(60)) . " " . int(rand(24)) .
 
 # change daily jobs to run at random TOD
 perl -i -pe 's/>[\d,]+ [\d,]+ \* \* \*/( ">" . int(rand(60)) . " " . int(rand(24)) . " * * *")/e' $path
-
-
-# if can't remove cron, set to once a yr
-# what if date is invalid? otherwise 2/29
-# can i omit schedule then fall back to DB which would not exist? what happens?
-
-# replace every * w/ */10
-
-# is there a way to stagger the midngiht jobs
-
-# potentially set schedule for random TOD in DB in admin module
-# <group id="default"><job name="analytics_subscribe" instance="Magento\Analytics\Cron\SignUp" method="execute" /><job
-# name="analytics_update" instance="Magento\Analytics\Cron\Update" method="execute" /><job name="analytics_collect_data"
-# instance="Magento\Analytics\Cron\CollectData" method="execute" /></group>
-# same for currency_rates_update
-
-
-# captcha_delete_old_attempts
-
-# changes once an hour to once per random TOD
-
