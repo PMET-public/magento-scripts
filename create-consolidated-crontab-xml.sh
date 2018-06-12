@@ -33,20 +33,20 @@ perl -i -pe 's{<group id="([^"]+)">}{($prevMatch eq $1 ? "" : (($prevMatch="$1")
 # remove all closing </group> at the end of lines
 perl -i -pe 's/><\/group>/>/' $path
 # remove the very 1st </group> at the beginning of the file and add it to the end
-sed -i '1 s/^<\/group>//; $ s/$/\n<\/group>/' $path
+sed -i '1 s/^<\/group>/<config>/; $ s/$/\n<\/group>\n<\/config>/' $path
 
 # move jobs to their own line
 perl -i -pe 's/><job/>\n<job/g;' $path
 perl -i -pe 's/^<job/  <job/' $path
 
-# change any cron jobs set
+# change any cron jobs that run more frequently than once every 10 min, to only once every 10 min
 perl -i -pe 's/\*(\/[\d])? \* \* \* \*/*\/10 * * * */' $path
 
-# delete unwanted cron jobs
-sed '/backend_clean_cache/d;/newsletter_send_all/d' $path
+# unset schedules that you do not want to run; M2 will check db and not find any
+perl -pe 's/<schedule.*<\/job>/<\/job>/ if /backend_clean_cache|newsletter_send_all/ ' $path
 
 
-# sed s/backend_clean_cache/d  also newsletter_send_all
+
 # if can't remove cron, set to once a yr
 # what if date is invalid? otherwise 2/29
 # can i omit schedule then fall back to DB which would not exist? what happens?
