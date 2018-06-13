@@ -3,7 +3,9 @@
 # turn on debugging
 set -x
 
-. "$( cd $(dirname $0) ; pwd -P )/lib.sh"
+cur_dir=$( cd $(dirname $0) ; pwd -P )
+. "$dir/lib.sh"
+$dir/create-consolidated-cron-xmls.sh
 
 case $1 in
   ce)
