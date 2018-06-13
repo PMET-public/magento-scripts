@@ -3,7 +3,7 @@
 # stop on errors
 set -e
 # turn on debugging
-set -x
+# set -x
 
 
 cur_dir=$( cd $(dirname $0) ; pwd -P )
