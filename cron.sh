@@ -10,7 +10,7 @@ log_cron_message "Cron started"
 echo $(date +"%Y-%m-%d %H:%M:%S") cron started >> /tmp/cron.log
 
 # normal magento cron
-php bin/magento cron:run
+php bin/magento cron:run &
 
 # magento should use rabbit mq but instead implemented their own message queue in mysql?!
 # magento should use a proper process manager but currently recommends cron and grepping for running processes?!
