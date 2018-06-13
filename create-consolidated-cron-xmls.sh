@@ -27,7 +27,7 @@ path="${dir}/etc/cron_groups.xml"
 rm "$path" || :
 
 # find all cron_groups.xml files and combine them
-find $( cd $(dirname $0)/../../ ; pwd -P ) -not -path "*magentoese/*" -name 'cron_groups.xml' -exec cat "{}" >> $path \;
+find $( cd $(dirname $0)/../../ ; pwd -P ) -not -path "*magentoese/*" -name 'cron_groups.xml*' -exec cat "{}" >> $path \; -exec mv "{}" "{}.old" \;
 
 # remove comments
 perl -i -pe 'BEGIN{undef $/;} s/<!--.*?-->//smg' $path
@@ -56,7 +56,7 @@ path="${dir}/etc/crontab.xml"
 rm "$path" || :
 
 # find all crontab.xml files and combine them
-find $( cd $(dirname $0)/../../ ; pwd -P ) -not -path "*magentoese/*" -name 'crontab.xml' -exec cat "{}" >> $path \;
+find $( cd $(dirname $0)/../../ ; pwd -P ) -not -path "*magentoese/*" -name 'crontab.xml*' -exec cat "{}" >> $path \; -exec mv "{}" "{}.old" \;
 
 # remove comments
 perl -i -pe 'BEGIN{undef $/;} s/<!--.*?-->//smg' $path
@@ -89,11 +89,14 @@ sed -i '1 s/^<\/group>/<config>/; $ s/$/\n<\/group>\n<\/config>/' $path
 # unset job schedules that you do not want to run at all; M2 will check db and not find any
 perl -i -pe 's/<schedule.*<\/job>/<\/job>/ if /backend_clean_cache|newsletter_send_all/ ' $path
 
-# change any cron jobs that run more frequently than once every 10 min, to only once every 10 min
-perl -i -pe 's/0-59 \* \* \* \*/* * * * */; s/\*(\/[\d])? \* \* \* \*/*\/10 * * * */' $path
-
 # change hourly jobs to random daily jobs
 perl -i -pe 's/>[\d,]+ \* \* \* \*/( ">" . int(rand(60)) . " " . int(rand(24)) . " * * *")/e' $path
+
+# change any cron jobs that run more frequently than once every 10 min, to only once every 10 min
+perl -i -pe 's/0-59 \* \* \* \*/* * * * */; s/\*(\/\d)? \* \* \* \*/((($i=int(rand(10))) && join($i.",", qw(0 1 2 3 4 5)).$i) . " * * * *")/e' $path
+
+# change jobs running every X min (e.g. */15) to once an hour on a random min
+perl -i -pe 's/>\*\/\d\d \* \* \* \*/( ">" . int(rand(60)) . " * * * *")/e' $path
 
 # change daily jobs to run at random TOD
 perl -i -pe 's/>[\d,]+ [\d,]+ \* \* \*/( ">" . int(rand(60)) . " " . int(rand(24)) . " * * *")/e' $path
