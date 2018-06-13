@@ -4,8 +4,8 @@
 set -x
 
 cur_dir=$( cd $(dirname $0) ; pwd -P )
-. "$dir/lib.sh"
-$dir/create-consolidated-cron-xmls.sh
+. $cur_dir/lib.sh
+$cur_dir/create-consolidated-cron-xmls.sh
 
 case $1 in
   ce)
