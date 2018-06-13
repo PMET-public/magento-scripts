@@ -23,7 +23,7 @@ fi
 #
 ##############################
 
-path="${dir}/cron_groups.xml"
+path="${dir}/etc/cron_groups.xml"
 rm "$path" || :
 
 # find all cron_groups.xml files and combine them
@@ -52,7 +52,7 @@ sed -i '1 s/^/<config>\n/; $ s/$/\n<\/config>/' $path
 #
 ##########################
 
-path="${dir}/crontab.xml"
+path="${dir}/etc/crontab.xml"
 rm "$path" || :
 
 # find all crontab.xml files and combine them
