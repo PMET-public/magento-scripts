@@ -17,7 +17,7 @@ first_run_pre_deploy() {
 
 first_run_post_deploy() {
   if is_first_run; then
-    /app/bin/magento cron:install
+    # /app/bin/magento cron:install
     /app/bin/magento indexer:reindex
     if ! is_ref; then
 : #  currently fails on platform b/c var/generated is not writeable
