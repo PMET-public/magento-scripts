@@ -8,22 +8,13 @@ set -e
 
 cur_dir=$( cd $(dirname $0) ; pwd -P )
 
-if [ -d "$cur_dir/../module-demo-admin-configurations" ]; then 
-  dir="$cur_dir/../module-demo-admin-configurations"
-elif [ -d "$cur_dir/../module-b2b-admin-configurations" ]; then
-  dir="$cur_dir/../module-b2b-admin-configurations"
-else
-  dir="$cur_dir/../module-admin-configurations"
-fi
-
-
 ##############################
 #
 # consolidated cron_groups.xml
 #
 ##############################
 
-path="${dir}/etc/cron_groups.xml"
+path="$cur_dir/../module-admin-configurations/etc/cron_groups.xml"
 rm "$path" || :
 
 # find all cron_groups.xml files and combine them
@@ -52,7 +43,7 @@ sed -i '1 s/^/<config>\n/; $ s/$/\n<\/config>/' $path
 #
 ##########################
 
-path="${dir}/etc/crontab.xml"
+path="$cur_dir/../module-admin-configurations/etc/crontab.xml"
 rm "$path" || :
 
 # find all crontab.xml files and combine them
