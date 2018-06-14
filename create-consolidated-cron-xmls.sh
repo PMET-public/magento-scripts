@@ -18,7 +18,7 @@ path="$cur_dir/../module-admin-configurations/etc/cron_groups.xml"
 rm "$path" || :
 
 # find all cron_groups.xml files and combine them
-find $( cd $(dirname $0)/../../ ; pwd -P ) -not -path "*magentoese/*" -name 'cron_groups.xml*' -exec cat "{}" >> $path \; -exec mv "{}" "{}.old" \;
+find $( cd $(dirname $0)/../../ ; pwd -P ) -not -path "*magentoese/module-admin*" -name 'cron_groups.xml*' -exec cat "{}" >> $path \; -exec mv "{}" "{}.old" \;
 
 # remove comments
 perl -i -pe 'BEGIN{undef $/;} s/<!--.*?-->//smg' $path
@@ -47,7 +47,7 @@ path="$cur_dir/../module-admin-configurations/etc/crontab.xml"
 rm "$path" || :
 
 # find all crontab.xml files and combine them
-find $( cd $(dirname $0)/../../ ; pwd -P ) -not -path "*magentoese/*" -name 'crontab.xml*' -exec cat "{}" >> $path \; -exec mv "{}" "{}.old" \;
+find $( cd $(dirname $0)/../../ ; pwd -P ) -not -path "*magentoese/module-admin*" -name 'crontab.xml*' -exec cat "{}" >> $path \; -exec mv "{}" "{}.old" \;
 
 # remove comments
 perl -i -pe 'BEGIN{undef $/;} s/<!--.*?-->//smg' $path
