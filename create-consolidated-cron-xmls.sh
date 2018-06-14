@@ -36,8 +36,8 @@ perl -i -pe 'BEGIN{undef $/;} s/<!--.*?-->//smg' $path
 sed -i '/config>/d;/<\?xml/d;/^\s*$/d' $path
 
 perl -i -pe '
-  s/(_every.*>)\d+/${1}20/;
-  s/(ahead_for.*>)\d+/${1}30/;
+  s/(_every.*>)\d+/${1}59/;
+  s/(ahead_for.*>)\d+/${1}1440/;
   s/(lifetime.*>)\d+/${1}600/;
   s/(schedule_lifetime.*>)\d+/${1}10/;
   s/(process.*>)1/${1}0/;
@@ -87,7 +87,7 @@ perl -i -pe 's/><\/group>/>/' $path
 sed -i '1 s/^<\/group>/<config>/; $ s/$/\n<\/group>\n<\/config>/' $path
 
 # unset job schedules that you do not want to run at all; M2 will check db and not find any
-perl -i -pe 's/<schedule.*<\/job>/<\/job>/ if /backend_clean_cache|newsletter_send_all/ ' $path
+perl -i -pe 's/<schedule.*<\/job>/<\/job>/ if /backend_clean_cache|newsletter_send_all|amazon_payments_process_queued_refunds|newrelic|captcha/ ' $path
 
 # change hourly jobs to random daily jobs
 perl -i -pe 's/>[\d,]+ \* \* \* \*/( ">" . int(rand(60)) . " " . int(rand(24)) . " * * *")/e' $path
