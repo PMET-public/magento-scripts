@@ -1,7 +1,7 @@
 {
     "name": "magentoese/magento-scripts",
     "description": "Scripts to start and manage our M2 installations",
-    "type": "project",
+    "type": "magento2-module",
     "authors": [
         {
             "name": "Keith Bentrup",
@@ -9,5 +9,13 @@
         }
     ],
     "minimum-stability": "alpha",
-    "require": {}
+    "require": {
+        "magento/framework": "*"
+    },
+    "autoload": {
+        "files": [ "registration.php" ],
+        "psr-4": {
+            "MagentoEse\\AdminConfigurations\\": ""
+        }
+    }
 }
