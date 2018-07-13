@@ -3,8 +3,7 @@
 # stop on errors
 set -e
 # turn on debugging
-# set -x
-
+set -x
 
 cur_dir=$( cd $(dirname $0) ; pwd -P )
 
@@ -25,7 +24,7 @@ find $( cd $(dirname $0)/../../ ; pwd -P ) -not -path "*magentoese/magento-scrip
 perl -i -pe 'BEGIN{undef $/;} s/<!--.*?-->//smg' $path
 
 # remove config tags, xml tags, and empty lines 
-sed -i '/config>/d;/<\?xml/d;/^\s*$/d' $path
+perl -i -ne 's/^\s*<\/?config[^>]*>\s*$//;s/<\?xml.*//; print unless m/^\s*$/' $path
 
 perl -i -pe '
   s/(_every.*>)\d+/${1}59/;
@@ -35,8 +34,24 @@ perl -i -pe '
   s/(process.*>)1/${1}0/;
   ' $path
 
-sed -i '1 s/^/<config>\n/; $ s/$/\n<\/config>/' $path
+# remove comments
+perl -i -pe 'BEGIN{undef $/;} s/<!--.*?-->//smg' $path
 
+# consolidate tags to a single line for further processing
+perl -i -pe 'BEGIN{undef $/;} s/\n//smg; s/>\s*?</></smg' $path
+
+# move groups to their own line
+perl -i -pe 's/<group/\n  <group/g;s/<\/group>/<\/group>\n/g' $path
+
+# only retain the group lines
+perl -i -ne '/<group/ and print' $path
+
+# sort and dedup in place
+sort -uo $path $path
+
+perl -i -pe 's/<\/group/\n  $&/;s/></>\n    </g' $path
+
+perl -i -pe 's/^/<config>\n/ if 1 .. 1; s/$/\n<\/config>/ if eof' $path
 
 ##########################
 #
@@ -75,8 +90,9 @@ sort -o $path $path
 perl -i -pe 's{<group id="([^"]+)">}{($prev_match eq $1 ? "  " : (($prev_match="$1") && "</group>\n$&"))}e' $path
 # remove all closing </group> at the end of lines
 perl -i -pe 's/><\/group>/>/' $path
+
 # remove the very 1st </group> at the beginning of the file and add it to the end
-sed -i '1 s/^<\/group>/<config>/; $ s/$/\n<\/group>\n<\/config>/' $path
+perl -i -pe 's/^<\/group>/<config>/ if 1 .. 1; s/$/\n<\/group>\n<\/config>/ if eof' $path
 
 # unset job schedules that you do not want to run at all; M2 will check db and not find any
 perl -i -pe 's/<schedule.*<\/job>/<\/job>/ if /backend_clean_cache|newsletter_send_all|amazon_payments_process_queued_refunds|newrelic|captcha/ ' $path
