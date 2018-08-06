@@ -12,9 +12,9 @@ if is_first_run; then
 fi
 
 if is_new_slug; then
-  php ./vendor/bin/m2-ece-deploy
+  php ./vendor/bin/ece-tools deploy
 elif is_new_branch; then
-  php ./vendor/bin/m2-ece-branch
+  php ./vendor/bin/ece-tools branch
 fi
 
 if is_new_slug; then
