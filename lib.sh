@@ -72,6 +72,7 @@ record_branch() {
 }
 
 rsyncSampleMedia () {
+    mkdir -p "${APP_ROOT}/pub/media"
     /bin/bash -c "rsync ${COMPOSER_RSYNC_OPTS} vendor/magento/sample-data-media/ pub/media || :"
 }
 
