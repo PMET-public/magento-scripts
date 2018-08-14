@@ -25,6 +25,6 @@ esac
 
 # remove files not needed for deployment on platform
 if is_platform_env; then
-  find vendor -type d \( -path "*/dev" -o -path "*/Test" -o -path "*/.git" \) -exec rm -rf {} \; 2>/dev/null || :
+  find vendor -type d \( -path "*/.git" \) -exec rm -rf {} \; 2>/dev/null || :
   rm -rf vendor/magento/sample-data-media || :
 fi
