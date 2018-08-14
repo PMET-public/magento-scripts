@@ -58,6 +58,7 @@ log_cron_message() {
 }
 
 log_deploy_message() {
+  mkdir -p "${APP_ROOT}/app/etc/log"
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] $@" >> "${DEPLOY_LOG_FILE}"
 }
 
