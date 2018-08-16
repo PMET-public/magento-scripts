@@ -28,6 +28,3 @@ if is_platform_env; then
   find vendor -type d \( -path "*/.git" \) -exec rm -rf {} \; 2>/dev/null || :
   rm -rf vendor/magento/sample-data-media || :
 fi
-
-# enable error reporting
-mv pub/errors/local.xml.sample pub/errors/local.xml || :
