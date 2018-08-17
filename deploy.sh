@@ -29,7 +29,3 @@ if is_first_run; then
   first_run_post_deploy
 fi
 
-# remove dir not needed after deploy
-rm -rf init/pub/media/*
-
-
