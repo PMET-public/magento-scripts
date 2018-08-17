@@ -53,10 +53,6 @@ is_ref() {
   return $?
 }
 
-log_cron_message() {
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $@" >> "${CRON_LOG_FILE}"
-}
-
 log_deploy_message() {
   mkdir -p "${APP_ROOT}/app/etc/log"
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] $@" >> "${DEPLOY_LOG_FILE}"
@@ -81,7 +77,6 @@ APP_ROOT=$( cd $(dirname $0)/../../.. ; pwd -P )
 
 INITIALIZED_FLAG_FILE="${APP_ROOT}/app/etc/.initialized"
 DEPLOY_LOG_FILE="${APP_ROOT}/app/etc/log/deploy.log"
-CRON_LOG_FILE="${APP_ROOT}/app/etc/log/cron.log"
 SLUG_FILE="${APP_ROOT}/app/etc/.MAGENTO_CLOUD_TREE_ID"
 BRANCH_FILE="${APP_ROOT}/app/etc/.MAGENTO_CLOUD_BRANCH"
 
