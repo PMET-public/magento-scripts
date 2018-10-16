@@ -11,11 +11,7 @@ if is_first_run; then
   first_run_pre_deploy
 fi
 
-if is_new_slug; then
-  php ./vendor/bin/ece-tools deploy
-elif is_new_branch; then
-  php ./vendor/bin/ece-tools branch
-fi
+php ./vendor/bin/ece-tools deploy
 
 if is_new_slug; then
   record_slug
