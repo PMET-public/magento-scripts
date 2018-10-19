@@ -12,7 +12,7 @@ cd "${APP_ROOT}"
 if php -r '$a=include "/app/app/etc/env.php";exit(!isset($a["cron"]["enabled"]) || $a["cron"]["enabled"] == 1 ? 0 : 1);'; then
 
   # normal magento cron
-  php bin/magento cron:run &
+  php bin/magento cron:run >/dev/null 2>&1 &
 
   # magento should use rabbit mq but instead implemented their own message queue in mysql?!
   # magento should use a proper process manager but currently recommends cron and grepping for running processes?!
