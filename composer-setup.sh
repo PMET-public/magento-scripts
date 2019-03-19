@@ -10,10 +10,8 @@ case $1 in
   ce)
   ;;
   ref)
-    rsyncSampleMedia
   ;;
   demo)
-    rsyncSampleMedia
     /bin/bash -c "rsync $COMPOSER_RSYNC_OPTS vendor/magentoese/module-venia-media-sample-data/ pub/media/ || :"
     /bin/bash -c "rsync $COMPOSER_RSYNC_OPTS vendor/magentoese/module-cms-media-sample-data-update/ pub/media/ || :"
   ;;
