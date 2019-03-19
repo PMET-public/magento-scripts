@@ -68,9 +68,19 @@ record_branch() {
   log_deploy_message "New branch recorded: ${MAGENTO_CLOUD_BRANCH}"
 }
 
+rsyncSampleMedia () {
+    mkdir -p "${APP_ROOT}/pub/media"
+    /bin/bash -c "rsync ${COMPOSER_RSYNC_OPTS} vendor/magento/sample-data-media/ pub/media || :"
+}
+
 APP_ROOT=$( cd $(dirname $0)/../../.. ; pwd -P )
 
 INITIALIZED_FLAG_FILE="${APP_ROOT}/app/etc/.initialized"
 DEPLOY_LOG_FILE="${APP_ROOT}/app/etc/log/deploy.log"
 SLUG_FILE="${APP_ROOT}/app/etc/.MAGENTO_CLOUD_TREE_ID"
 BRANCH_FILE="${APP_ROOT}/app/etc/.MAGENTO_CLOUD_BRANCH"
+
+COMPOSER_RSYNC_OPTS="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.md' --exclude '/LICENSE*'"
+if is_platform_env; then
+  COMPOSER_RSYNC_OPTS="${COMPOSER_RSYNC_OPTS} --remove-source-files"
+fi
