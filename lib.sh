@@ -68,6 +68,11 @@ record_branch() {
   log_deploy_message "New branch recorded: ${MAGENTO_CLOUD_BRANCH}"
 }
 
+rsyncSampleMedia () {
+  mkdir -p "${APP_ROOT}/pub/media"
+  /bin/bash -c "rsync ${COMPOSER_RSYNC_OPTS} vendor/magento/sample-data-media/ pub/media || :"
+}
+
 APP_ROOT=$( cd $(dirname $0)/../../.. ; pwd -P )
 
 INITIALIZED_FLAG_FILE="${APP_ROOT}/app/etc/.initialized"
