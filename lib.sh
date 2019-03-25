@@ -80,7 +80,7 @@ DEPLOY_LOG_FILE="${APP_ROOT}/app/etc/log/deploy.log"
 SLUG_FILE="${APP_ROOT}/app/etc/.MAGENTO_CLOUD_TREE_ID"
 BRANCH_FILE="${APP_ROOT}/app/etc/.MAGENTO_CLOUD_BRANCH"
 
-COMPOSER_RSYNC_OPTS="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.md' --exclude '/LICENSE*' --exclude '/catalog/product'"
+COMPOSER_RSYNC_OPTS="-rlptz --exclude '/composer.*' --exclude '/.git*' --exclude '/README.md' --exclude '/LICENSE*'"
 if is_platform_env; then
   COMPOSER_RSYNC_OPTS="${COMPOSER_RSYNC_OPTS} --remove-source-files"
 fi
