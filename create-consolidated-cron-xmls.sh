@@ -101,7 +101,7 @@ perl -i -pe 's/<schedule.*<\/job>/<\/job>/ if /backend_clean_cache|newsletter_se
 perl -i -pe 's/>[\d,]+ \* \* \* \*/( ">" . int(rand(60)) . " " . int(rand(24)) . " * * *")/e' $path
 
 # change any cron jobs that run more frequently than once every 10 min, to only once every 10 min
-# perl -i -pe 's/0-59 \* \* \* \*/* * * * */; s/\*(\/\d)? \* \* \* \*/((($i=int(rand(10))) && join($i.",", qw(0 1 2 3 4 5)).$i) . " * * * *")/e' $path
+perl -i -pe 's/0-59 \* \* \* \*/* * * * */; s/\*(\/\d)? \* \* \* \*/((($i=int(rand(10))) && join($i.",", qw(0 1 2 3 4 5)).$i) . " * * * *")/e' $path
 
 # change jobs running every X min (e.g. */15) to once an hour on a random min
 perl -i -pe 's/>\*\/\d\d \* \* \* \*/( ">" . int(rand(60)) . " * * * *")/e' $path
