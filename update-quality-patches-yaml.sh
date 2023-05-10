@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
 # turn on debugging
-set -x
-
-cur_dir="$( cd "$(dirname "$0")" ; pwd -P )"
-. "$cur_dir/lib.sh"
+# set -x
 
 # remove unwanted patches from the list (newline separated)
 patches_to_exclude="
@@ -12,6 +9,10 @@ ACSD-50276
 "
 # trim empty lines
 patches_to_exclude="$(echo "$patches_to_exclude" | sed '/^$/d')"
+echo -e "\033[31mSkipping these patches:
+$patches_to_exclude
+\033[0m"
+
 
 
 patches="$(
